@@ -1,5 +1,6 @@
 const globalUserInput = require("./");
-globalUserInput.on("*", data => {
-  console.log(data)
+const util = require("util");
+globalUserInput.on("raw", data => {
+  console.log(util.inspect(data, false, 4, true), "\n")
 })
 globalUserInput.listen();
