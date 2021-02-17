@@ -1,6 +1,10 @@
-const globalUserInput = require("./");
-const util = require("util");
-globalUserInput.on("raw", data => {
-  console.log(util.inspect(data, false, 4, true), "\n")
-})
-globalUserInput.listen();
+const gui = require("./");
+gui.listen();
+
+gui.on("keyboard:keydown", ({ key }) => {
+  console.log("User pressed to key:", key);
+});
+
+gui.on("mouse:move", ({ x, y }) => {
+  console.log("User moved the mouse", x, y);
+});
