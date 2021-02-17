@@ -1,13 +1,27 @@
 {
   "name": "globaluserinput",
-  "version": "0.1.5",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Global user input listener for windows. Like mouse move, keydown etc..",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheArmagan/globaluserinput.git"
+  },
+  "keywords": [
+    "global",
+    "user",
+    "input",
+    "hook",
+    "keyboard",
+    "mouse"
+  ],
+  "author": "Kıraç Armağan Önal",
   "license": "MIT",
-  "dependencies": {}
+  "bugs": {
+    "url": "https://github.com/TheArmagan/globaluserinput/issues"
+  },
+  "homepage": "https://github.com/TheArmagan/globaluserinput#readme"
 }
