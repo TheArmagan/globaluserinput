@@ -2,7 +2,7 @@
 
 Windows only. <sub>(for now)</sub>
 
-> ### Last Update (1.1.0)
+> ### Last Update (1.1.1)
 - Added types! So now you can auto completions when coding!
 - Not using `default` export is deprecated!
 - Shortcut added for the `this.events.off()`! Now you can just do `off(eventName, listener)`
