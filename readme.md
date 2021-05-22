@@ -2,10 +2,15 @@
 
 Windows only. <sub>(for now)</sub>
 
+> ### Last Update (1.1.0)
+- Added types! So now you can auto completions when coding!
+- Not using `default` export is deprecated!
+- Shortcut added for the `this.events.off()`! Now you can just do `off(eventName, listener)`
+
 > ### Example
 
 ```js
-const gui = require("globaluserinput");
+const gui = require("globaluserinput").default;
 gui.listen();
 
 gui.events.on("keyboard:keydown", ({ key }) => {
@@ -39,7 +44,7 @@ gui.events.on("mouse:move", ({ x, y }) => {
 >   - Key is required and function is returns the is key down or not.
 > - Also object contains the key states.
 
-> #### `on(): any`
+> #### `on(event, listener): any`
 >
 > Shortcut for the `this.events.on()`.
 > Also you can listen for these events:
@@ -61,6 +66,11 @@ gui.events.on("mouse:move", ({ x, y }) => {
 >   - `key: number`: Keycode of the key.
 > - `keyboard:keypress`: Object
 >   - `key: number`: Keycode of the key.
+
+> #### `off(event, listener): any`
+>
+> Shortcut for the `this.events.off()`.
+
 
 > #### `events: EventEmitter`
 >

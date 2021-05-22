@@ -84,6 +84,13 @@ class GlobalUserInput {
     this.events.on(event, listener);
   }
 
+  /**
+   * Shortcut for the `this.events.off()`.
+   */
+  off(event, listener) {
+    this.events.off(event, listener)
+  }
+
 }
 
 module.exports = GlobalUserInput;
