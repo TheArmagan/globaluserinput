@@ -7,7 +7,7 @@ class GlobalUserInput {
   /** @type {cp.ChildProcessWithoutNullStreams} @private */
   #mainProc;
 
-  /** @type {{[key: number]: boolean, isDown(key:number)=>boolean }} */
+  /** @type {{[key: number]: boolean, isDown(key:number)=>boolean}} */
   keyboard = {
     isDown(key = 0) {
       return !!this[key];
@@ -73,7 +73,6 @@ class GlobalUserInput {
         this.mouse[eventData.key] = false;
         break;
     }
-
   }
 
   /** 
