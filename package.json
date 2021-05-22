@@ -1,6 +1,6 @@
 {
   "name": "globaluserinput",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Global user input listener for windows. Like mouse move, keydown etc..",
   "main": "index.js",
   "scripts": {
