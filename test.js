@@ -1,17 +1,14 @@
-/// <reference path="index.d.ts" />
-
+/** @type {import("globaluserinput").GlobalUserInput} */
 const gui = require(".").default;
 
-gui.listen();
+gui.init();
 
 gui.on("raw", (data) => {
   console.log(data)
 });
 
-gui.on("keyboard:keydown", () => {
-  console.log(gui.keyboard);
-})
+setInterval(() => {
+  gui.mouse.click(1);
+}, 1000);
 
-gui.on("keyboard:keyup", () => {
-  console.log(gui.keyboard);
-})
+

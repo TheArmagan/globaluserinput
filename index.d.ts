@@ -4,25 +4,30 @@ declare module "globaluserinput" {
   import { ChildProcessWithoutNullStreams } from "child_process";
   import { EventEmitter } from "events";
   
-  class GlobalUserInput {
+  export class GlobalUserInput {
 
     #mainProc: ChildProcessWithoutNullStreams;
 
     public keyboard: {
-      [key: number]: boolean | undefined;
       isDown(key: number): boolean;
+      down(key: number): any;
+      up(key: number): any;
+      press(key: number): any;
     }
 
     public mouse: {
       x: number;
       y: number;
-      [key: number]: boolean | undefined;
       isDown(key: number): boolean;
+      down(key: 1 | 2 | 3): any;
+      up(key: 1 | 2 | 3): any;
+      move(x: number, y: number): any;
+      click(key: 1 | 2 | 3): any;
     }
 
     public events: EventEmitter;
 
-    public listen(binaryPath?: string): Promise<any>;
+    public init(binaryPath?: string): Promise<any>;
 
     #handleData: (json: any) => any;
 

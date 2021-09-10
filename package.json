@@ -1,7 +1,7 @@
 {
   "name": "globaluserinput",
-  "version": "1.1.1",
-  "description": "Global user input listener for windows. Like mouse move, keydown etc..",
+  "version": "2.0.0",
+  "description": "😎 Bi-directional global user input; Read/Write key events on Windows!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,7 +18,11 @@
     "keyboard",
     "mouse",
     "types",
-    "typing"
+    "typing",
+    "read",
+    "write",
+    "control",
+    "robot"
   ],
   "author": "Kıraç Armağan Önal",
   "license": "MIT",

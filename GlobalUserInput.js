@@ -7,19 +7,108 @@ class GlobalUserInput {
   /** @type {cp.ChildProcessWithoutNullStreams} @private */
   #mainProc;
 
-  /** @type {{[key: number]: boolean, isDown(key:number)=>boolean}} */
-  keyboard = {
-    isDown(key = 0) {
-      return !!this[key];
+  #keyboardStates = {};
+  #mouseStates = {
+    x: 0,
+    y: 0
+  };
+
+  get keyboard() {
+    let self = this;
+    return {
+      isDown(key) {
+        return !!self.#keyboardStates[key];
+      },
+      down(key) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "keyboard",
+            type: "keydown"
+          },
+          data: {
+            key
+          }
+        }));
+      },
+      up(key) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "keyboard",
+            type: "keyup"
+          },
+          data: {
+            key
+          }
+        }));
+      },
+      press(key) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "keyboard",
+            type: "keypress"
+          },
+          data: {
+            key
+          }
+        }));
+      }
     }
   };
 
-  /** @type {{x: number, y: number, [key: number]: boolean, isDown(key:number)=>boolean}} */
-  mouse = {
-    x: 0,
-    y: 0,
-    isDown(key = 0) {
-      return !!this[key];
+  get mouse() {
+    let self = this;
+    return {
+      get x() {
+        return self.#mouseStates.x;
+      },
+      get y() {
+        return self.#mouseStates.y;
+      },
+      isDown(key) {
+        return !!self.#mouseStates[key];
+      },
+      down(key, x, y) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "mouse",
+            type: "keydown"
+          },
+          data: {
+            x,
+            y,
+            key
+          }
+        }));
+      },
+      up(key, x, y) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "mouse",
+            type: "keyup"
+          },
+          data: {
+            x,
+            y,
+            key
+          }
+        }));
+      },
+      move(x, y) {
+        self.#write(JSON.stringify({
+          event: {
+            base: "mouse",
+            type: "move"
+          },
+          data: {
+            x,
+            y
+          }
+        }));
+      },
+      click(key, x, y) {
+        this.down(key, x, y);
+        this.up(key, x, y);
+      }
     }
   }
 
@@ -29,7 +118,7 @@ class GlobalUserInput {
    * Start listening to user events.
    * @param {String} binaryPath File path to UserInputJSON.exe
    */
-  async listen(binaryPath = "") {
+  async init(binaryPath = "") {
     if (!!this.#mainProc) throw "Already listening..";
     this.#mainProc = cp.spawn(binaryPath || path.resolve(__dirname, "binary", "UserInputJSON.exe").replace("app.asar", "app.asar.unpacked"));
     this.#mainProc.stdout.setEncoding("utf-8");
@@ -49,6 +138,10 @@ class GlobalUserInput {
     })
   }
 
+  #write = (text = "", autoEnter = true) => {
+    this.#mainProc.stdin.write(text + (autoEnter ? "\n" : ""), "utf-8");
+  }
+
   #handleData = (json = {}) => {
     const eventName = `${json.event.base}:${json.event.type}`;
     const eventData = json.data;
@@ -57,20 +150,20 @@ class GlobalUserInput {
 
     switch (eventName) {
       case "keyboard:keydown":
-        this.keyboard[eventData.key] = true;
+        this.#keyboardStates[eventData.key] = true;
         break;
       case "keyboard:keyup":
-        this.keyboard[eventData.key] = false;
+        delete this.#keyboardStates[eventData.key];
         break;
       case "mouse:move":
-        this.mouse.x = eventData.x;
-        this.mouse.y = eventData.y;
+        this.#mouseStates.x = eventData.x;
+        this.#mouseStates.y = eventData.y;
         break;
       case "mouse:keydown":
-        this.mouse[eventData.key] = true;
+        this.#mouseStates[eventData.key] = true;
         break;
       case "mouse:keyup":
-        this.mouse[eventData.key] = false;
+        delete this.#mouseStates[eventData.key];
         break;
     }
   }

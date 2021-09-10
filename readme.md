@@ -1,38 +1,42 @@
-# Global User Input
+> # Global User Input
+> 😎 Bi-directional global user input; Read/Write key events on Windows!
 
-Windows only. <sub>(for now)</sub>
-
-> ### Last Update (1.1.1)
-- Added types! So now you can auto completions when coding!
-- Not using `default` export is deprecated!
-- Shortcut added for the `this.events.off()`! Now you can just do `off(eventName, listener)`
+> ### Last Update (2.0.0)
+- Added bi-directional support! Now you can control the mouse and keyboard!
 
 > ### Example
 
 ```js
 const gui = require("globaluserinput").default;
-gui.listen();
+gui.init();
 
-gui.events.on("keyboard:keydown", ({ key }) => {
+gui.on("keyboard:keydown", ({ key }) => {
   console.log("User pressed to key:", key);
 });
 
-gui.events.on("mouse:move", ({ x, y }) => {
-  console.log("User moved the mouse", x, y);
+gui.on("mouse:move", ({ x, y }) => {
+  console.log("User moved the mouse:", x, y);
 });
+
+// Click the left mouse button every one second.
+setInterval(()=>{
+  gui.mouse.click(1);
+}, 1000);
 ```
 
 > ### API
 
-> #### `listen(binaryPath?): void`
->
-> - Binary path is not required.
+> #### `init(): void`: Initializes the global user input.
 
 > #### `keyboard: Object`
 >
-> - `isDown(key): boolean`
-> - Key is required and function is returns the is key down or not.
-> - Also object contains the key states.
+> - `isDown(key): boolean`: Key code is required. And it returns `true` if the key is down.
+>
+> - `down(key): any`: Key code is required. Sends a `keydown` event to the active window/desktop.
+>
+> - `up(key): any`: Key code is required. Sends a `keyup` event to the active window/desktop.
+>
+> - `press(key): any`: Key code is required. Sends a `keypress` event to the active window/desktop. Basicly it sends a `keydown` and a `keyup` event.
 
 > #### `mouse: Object`
 >
@@ -40,9 +44,16 @@ gui.events.on("mouse:move", ({ x, y }) => {
 >
 > - `y: number`: Y position of the mouse.
 >
-> - `isDown(key): boolean`
->   - Key is required and function is returns the is key down or not.
-> - Also object contains the key states.
+> - `isDown(key): boolean`: Key code is required. And it returns `true` if the key is down.
+> 
+> - `down(key, x?, y?): any`: Key code is required. Sends a `mousedown` event to the active window/desktop.
+>
+> - `up(key, x?, y?): any`: Key code is required. Sends a `mouseup` event to the active window/desktop.
+>
+> - `move(x, y): any`:  X and Y is required. Sends a `mousemove` event to the active window/desktop.
+>
+> - `click(key, x?, y?): any`: Key code is required. Basicly sends a `mousedown` and a `mouseup` event.
+>
 
 > #### `on(event, listener): any`
 >
